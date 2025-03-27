@@ -5,8 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Template com Bootstrap</title>
+    <title><?= bloginfo() ?></title>
 
+    <link type="text/css" media="all" rel="stylesheet" href="<?= bloginfo('stylesheet_url') ?>" />
+    <?php
+        wp_head();
+        if(is_singular() && get_option('thread_comments'))
+        {
+            wp_enqueue_scripts('comment-reply');
+        }
+    ?>
     <!-- Bootstrap -->
     <link href="<?= get_template_directory_uri(); ?>/css/bootstrap_tema.min.css" rel="stylesheet">
 
@@ -29,21 +37,25 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Bootstrap</a>
+            <a class="navbar-brand" href="<?= get_home_url() ?>"><?= bloginfo('name') ?></a>
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="identificacaoMenu">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-              <li><a href="#">Link</a></li>
-
+                <?= wp_list_categories([
+                    'orderby=>name',
+                    'show_count=> 1',
+                    'title_li' => ''
+                    ]);
+                ?>
             </ul>
 
+
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
+              <?php
+                wp_list_pages('title_li=');
+              ?>
 
             </ul>
           </div><!-- /.navbar-collapse -->
